@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CrudPark_Back.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrudPark_Back.Models.Entities;
@@ -15,6 +16,9 @@ public class Rate
     [MaxLength(100)]
     [Column("rate_name")]
     public string RateName { get; set; } = string.Empty;
+    
+    [Column("vehicle_type")]
+    public VehicleType VehicleType { get; set; }
 
     [Column("hourly_rate")]
     [Precision(10, 2)]

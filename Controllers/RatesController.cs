@@ -1,4 +1,5 @@
 using CrudPark_Back.Models.DTOs.Requests;
+using CrudPark_Back.Models.Enums;
 using CrudPark_Back.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -197,23 +198,38 @@ public class RatesController : ControllerBase
             });
         }
     }
-
+    
     // POST: api/Rates/calculate-fee
     [HttpPost("calculate-fee")]
     public async Task<IActionResult> CalculateFee([FromBody] CalculateFeeRequest request)
     {
         try
         {
-            var fee = await _rateService.CalculateParkingFeeAsync(request.EntryTime, request.ExitTime);
-            
+            // ⭐ Parsear el VehicleType desde string
+            if (!Enum.TryParse<VehicleType>(request.VehicleType, true, out var vehicleType))
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Tipo de vehículo inválido. Valores permitidos: Car, Motorcycle, Truck"
+                });
+            }
+
+            // ⭐ Ahora se pasa el vehicleType como tercer parámetro
+            var fee = await _rateService.CalculateParkingFeeAsync(
+                request.EntryTime, 
+                request.ExitTime, 
+                vehicleType);
+        
             var duration = (request.ExitTime - request.EntryTime).TotalMinutes;
-            
+        
             return Ok(new
             {
                 success = true,
                 message = "Tarifa calculada exitosamente",
                 data = new
                 {
+                    vehicleType = vehicleType.ToString(),
                     entryTime = request.EntryTime,
                     exitTime = request.ExitTime,
                     durationMinutes = (int)duration,
@@ -245,6 +261,7 @@ public class RatesController : ControllerBase
 
 public class CalculateFeeRequest
 {
+    public string VehicleType { get; set; } = string.Empty;  
     public DateTime EntryTime { get; set; }
     public DateTime ExitTime { get; set; }
 }

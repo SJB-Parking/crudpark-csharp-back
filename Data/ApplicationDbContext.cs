@@ -46,6 +46,10 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Shift>()
             .Property(s => s.Status)
             .HasConversion<string>();
+        
+        modelBuilder.Entity<Rate>()
+            .Property(r => r.VehicleType)
+            .HasConversion<string>();
 
         // Indices únicos
         modelBuilder.Entity<Vehicle>()
@@ -139,7 +143,7 @@ public class ApplicationDbContext : DbContext
         SeedData(modelBuilder);
     }
 
-     private void SeedData(ModelBuilder modelBuilder)
+    private void SeedData(ModelBuilder modelBuilder)
     {
         // Fechas estáticas para evitar el error de modelo no determinístico
         var seedDate = new DateTime(2025, 1, 15, 0, 0, 0, DateTimeKind.Utc);
@@ -147,9 +151,6 @@ public class ApplicationDbContext : DbContext
         var subscriptionEnd = new DateTime(2025, 2, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // Hashes pre-generados (estáticos) para evitar el error
-        // admin123 -> $2a$11$ZK5L5Y5Y5Y5Y5Y5Y5Y5Y5OqH0J0J0J0J0J0J0J0J0J0J0J0J0J0J0
-        // operator123 -> $2a$11$XK5L5Y5Y5Y5Y5Y5Y5Y5Y5OqH0J0J0J0J0J0J0J0J0J0J0J0J0J0J1
-        
         var adminPasswordHash = "$2a$11$kH3ulu5AEQGioyzXDx.pg.4JDqE9/mACqZbtdymRdAm.zgUN2rX7.";
         var operatorPasswordHash = "$2a$11$a2ISYKBQqXw.27Xd8WwykOc9YpYSZCfKVvV/WqdEZ7c3mdAY4d88K";
 
@@ -179,15 +180,44 @@ public class ApplicationDbContext : DbContext
             }
         );
 
-        // Seed Rate por defecto
+        // ⭐ SEED RATES - 3 TARIFAS DIFERENCIADAS POR TIPO DE VEHÍCULO
         modelBuilder.Entity<Rate>().HasData(
             new Rate
             {
                 Id = 1,
-                RateName = "Tarifa Estándar 2025",
+                RateName = "Tarifa Motos 2025",
+                VehicleType = VehicleType.Motorcycle,
+                HourlyRate = 2000m,
+                FractionRate = 700m,
+                DailyCap = 20000m,
+                GracePeriodMinutes = 30,
+                IsActive = true,
+                EffectiveFrom = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                CreatedAt = seedDate,
+                UpdatedAt = seedDate
+            },
+            new Rate
+            {
+                Id = 2,
+                RateName = "Tarifa Carros 2025",
+                VehicleType = VehicleType.Car,
                 HourlyRate = 3000m,
                 FractionRate = 1000m,
                 DailyCap = 30000m,
+                GracePeriodMinutes = 30,
+                IsActive = true,
+                EffectiveFrom = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                CreatedAt = seedDate,
+                UpdatedAt = seedDate
+            },
+            new Rate
+            {
+                Id = 3,
+                RateName = "Tarifa Camiones 2025",
+                VehicleType = VehicleType.Truck,
+                HourlyRate = 5000m,
+                FractionRate = 1500m,
+                DailyCap = 50000m,
                 GracePeriodMinutes = 30,
                 IsActive = true,
                 EffectiveFrom = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
@@ -293,5 +323,3 @@ public class ApplicationDbContext : DbContext
         );
     }
 }
-
-        

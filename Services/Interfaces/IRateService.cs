@@ -1,5 +1,6 @@
 using CrudPark_Back.Models.DTOs.Requests;
 using CrudPark_Back.Models.DTOs.Responses;
+using CrudPark_Back.Models.Enums;
 
 namespace CrudPark_Back.Services.Interfaces;
 
@@ -11,5 +12,5 @@ public interface IRateService
     Task<RateResponse> CreateRateAsync(CreateRateRequest request);
     Task<RateResponse> UpdateRateAsync(int id, UpdateRateRequest request);
     Task<bool> DeleteRateAsync(int id);
-    Task<decimal> CalculateParkingFeeAsync(DateTime entryTime, DateTime exitTime);
+    Task<decimal> CalculateParkingFeeAsync(DateTime entryTime, DateTime exitTime, VehicleType vehicleType);  // ⭐ ACTUALIZADO
 }

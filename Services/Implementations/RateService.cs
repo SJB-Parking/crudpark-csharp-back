@@ -1,6 +1,7 @@
 using CrudPark_Back.Models.DTOs.Requests;
 using CrudPark_Back.Models.DTOs.Responses;
 using CrudPark_Back.Models.Entities;
+using CrudPark_Back.Models.Enums;
 using CrudPark_Back.Repositories.Interfaces;
 using CrudPark_Back.Services.Interfaces;
 
@@ -35,15 +36,16 @@ public class RateService : IRateService
 
     public async Task<RateResponse> CreateRateAsync(CreateRateRequest request)
     {
-        // Si se marca como activa, desactivar todas las demás
+        // Si se marca como activa, desactivar todas las demás del mismo tipo
         if (request.EffectiveFrom <= DateTime.UtcNow)
         {
-            await _rateRepository.DeactivateAllRatesAsync();
+            await _rateRepository.DeactivateRatesByVehicleTypeAsync(request.VehicleType);
         }
 
         var rate = new Rate
         {
             RateName = request.RateName,
+            VehicleType = request.VehicleType,  // ⭐ AGREGADO
             HourlyRate = request.HourlyRate,
             FractionRate = request.FractionRate,
             DailyCap = request.DailyCap,
@@ -67,6 +69,9 @@ public class RateService : IRateService
         // Actualizar campos
         if (!string.IsNullOrEmpty(request.RateName))
             rate.RateName = request.RateName;
+
+        if (request.VehicleType.HasValue)  // ⭐ AGREGADO
+            rate.VehicleType = request.VehicleType.Value;
         
         if (request.HourlyRate.HasValue)
             rate.HourlyRate = request.HourlyRate.Value;
@@ -80,10 +85,10 @@ public class RateService : IRateService
         if (request.GracePeriodMinutes.HasValue)
             rate.GracePeriodMinutes = request.GracePeriodMinutes.Value;
         
-        // Si se activa esta tarifa, desactivar las demás
+        // Si se activa esta tarifa, desactivar las demás del mismo tipo
         if (request.IsActive.HasValue && request.IsActive.Value && !rate.IsActive)
         {
-            await _rateRepository.DeactivateAllRatesAsync();
+            await _rateRepository.DeactivateRatesByVehicleTypeAsync(rate.VehicleType);
             rate.IsActive = true;
         }
         else if (request.IsActive.HasValue)
@@ -100,11 +105,12 @@ public class RateService : IRateService
         return await _rateRepository.DeleteAsync(id);
     }
 
-    public async Task<decimal> CalculateParkingFeeAsync(DateTime entryTime, DateTime exitTime)
+    // ⭐ MÉTODO ACTUALIZADO CON VEHICLETYPE
+    public async Task<decimal> CalculateParkingFeeAsync(DateTime entryTime, DateTime exitTime, VehicleType vehicleType)
     {
-        var rate = await _rateRepository.GetActiveRateAsync();
+        var rate = await _rateRepository.GetActiveRateByVehicleTypeAsync(vehicleType);
         if (rate == null)
-            throw new InvalidOperationException("No hay una tarifa activa configurada");
+            throw new InvalidOperationException($"No hay una tarifa activa configurada para {vehicleType}");
 
         // Calcular duración en minutos
         var duration = (exitTime - entryTime).TotalMinutes;
@@ -143,6 +149,7 @@ public class RateService : IRateService
         {
             Id = rate.Id,
             RateName = rate.RateName,
+            VehicleType = rate.VehicleType.ToString(),  // ⭐ AGREGADO
             HourlyRate = rate.HourlyRate,
             FractionRate = rate.FractionRate,
             DailyCap = rate.DailyCap,

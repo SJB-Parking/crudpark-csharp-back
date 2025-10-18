@@ -1,5 +1,6 @@
 using CrudPark_Back.Data;
 using CrudPark_Back.Models.Entities;
+using CrudPark_Back.Models.Enums;
 using CrudPark_Back.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,15 @@ public class RateRepository : IRateRepository
             .FirstOrDefaultAsync();
     }
 
+    // ⭐ MÉTODO NUEVO
+    public async Task<Rate?> GetActiveRateByVehicleTypeAsync(VehicleType vehicleType)
+    {
+        return await _context.Rates
+            .Where(r => r.IsActive && r.VehicleType == vehicleType)
+            .OrderByDescending(r => r.EffectiveFrom)
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<Rate> CreateAsync(Rate rate)
     {
         _context.Rates.Add(rate);
@@ -64,6 +74,22 @@ public class RateRepository : IRateRepository
     {
         var activeRates = await _context.Rates
             .Where(r => r.IsActive)
+            .ToListAsync();
+
+        foreach (var rate in activeRates)
+        {
+            rate.IsActive = false;
+            rate.UpdatedAt = DateTime.UtcNow;
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+    // ⭐ MÉTODO NUEVO
+    public async Task DeactivateRatesByVehicleTypeAsync(VehicleType vehicleType)
+    {
+        var activeRates = await _context.Rates
+            .Where(r => r.IsActive && r.VehicleType == vehicleType)
             .ToListAsync();
 
         foreach (var rate in activeRates)
