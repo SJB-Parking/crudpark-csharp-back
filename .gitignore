@@ -1,5 +1,38 @@
-﻿bin/
+﻿# Build results
+bin/
 obj/
-.vs/
+out/
+[Bb]uild/
+
+# User-specific files
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Rider
+.idea/
+*.iml
+
+# Packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.lock.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Publish output
+publish/
+
