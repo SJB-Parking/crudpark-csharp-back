@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/vehiculos")]
 public class VehiclesController : ControllerBase
 {
     private readonly IVehicleService _vehicleService;

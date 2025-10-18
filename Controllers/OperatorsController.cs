@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/operadores")]
 public class OperatorsController : ControllerBase
 {
     private readonly IOperatorService _operatorService;

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Brahiam\\Documents\\CrudPark-Back\\CrudPark-Back.csproj": {}
+    "C:\\Users\\steve\\RiderProjects\\crudpark-csharp-back\\CrudPark-Back.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Brahiam\\Documents\\CrudPark-Back\\CrudPark-Back.csproj": {
+    "C:\\Users\\steve\\RiderProjects\\crudpark-csharp-back\\CrudPark-Back.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Brahiam\\Documents\\CrudPark-Back\\CrudPark-Back.csproj",
+        "projectUniqueName": "C:\\Users\\steve\\RiderProjects\\crudpark-csharp-back\\CrudPark-Back.csproj",
         "projectName": "CrudPark-Back",
-        "projectPath": "C:\\Users\\Brahiam\\Documents\\CrudPark-Back\\CrudPark-Back.csproj",
-        "packagesPath": "C:\\Users\\Brahiam\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Brahiam\\Documents\\CrudPark-Back\\obj\\",
+        "projectPath": "C:\\Users\\steve\\RiderProjects\\crudpark-csharp-back\\CrudPark-Back.csproj",
+        "packagesPath": "C:\\Users\\steve\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\steve\\RiderProjects\\crudpark-csharp-back\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Brahiam\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\steve\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -115,7 +115,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.413/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

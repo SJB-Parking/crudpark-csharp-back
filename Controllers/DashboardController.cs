@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/dashboard")]
 public class DashboardController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
