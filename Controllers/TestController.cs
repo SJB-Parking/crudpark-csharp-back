@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/prueba")]
 public class TestController : ControllerBase
 {
     private readonly ApplicationDbContext _context;

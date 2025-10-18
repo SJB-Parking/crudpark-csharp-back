@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/tarifas")]
 public class RatesController : ControllerBase
 {
     private readonly IRateService _rateService;

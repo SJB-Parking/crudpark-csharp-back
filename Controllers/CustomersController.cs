@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/clientes")]
 public class CustomersController : ControllerBase
 {
     private readonly ICustomerService _customerService;

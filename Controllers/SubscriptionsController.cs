@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CrudPark_Back.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/mensualidades")]
 public class SubscriptionsController : ControllerBase
 {
     private readonly ISubscriptionService _subscriptionService;
