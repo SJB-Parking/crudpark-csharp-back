@@ -1,0 +1,30 @@
+# Archivos y carpetas que no deben subirse al repositorio
+
+# Carpetas de compilación
+bin/
+obj/
+
+# Archivos de configuración del usuario
+*.user
+*.rsuser
+*.suo
+
+# Archivos temporales de Visual Studio / Rider
+.vs/
+.idea/
+
+# Archivos de logs y temporales
+*.log
+*.tmp
+
+# Configuraciones de compilación
+*.cache
+*.pdb
+
+# Publicaciones y builds
+publish/
+out/
+
+# Archivos generados por el sistema
+Thumbs.db
+Desktop.ini
