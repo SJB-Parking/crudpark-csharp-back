@@ -17,7 +17,7 @@ public class ReportsController : ControllerBase
     }
 
     // GET: api/Reports/income?period=day|week|month
-    [HttpGet("income")]
+    [HttpGet("ingresos")]
     public async Task<IActionResult> GetIncomeReport([FromQuery] string period = "day")
     {
         try
@@ -72,7 +72,7 @@ public class ReportsController : ControllerBase
     }
 
     // GET: api/Reports/occupancy
-    [HttpGet("occupancy")]
+    [HttpGet("ocupacion")]
     public async Task<IActionResult> GetOccupancyReport([FromQuery] int days = 7)
     {
         try
