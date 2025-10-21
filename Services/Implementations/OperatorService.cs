@@ -56,7 +56,7 @@ public class OperatorService : IOperatorService
         operatorEntity = await _operatorRepository.CreateAsync(operatorEntity);
         return MapToResponse(operatorEntity);
     }
-
+    
     public async Task<OperatorResponse> UpdateOperatorAsync(int id, UpdateOperatorRequest request)
     {
         var operatorEntity = await _operatorRepository.GetByIdAsync(id);
@@ -69,6 +69,18 @@ public class OperatorService : IOperatorService
         
         if (!string.IsNullOrEmpty(request.Email))
             operatorEntity.Email = request.Email;
+        
+        // ← AGREGAR ESTAS LÍNEAS
+        if (!string.IsNullOrEmpty(request.Username))
+        {
+            // Validar que el username no exista (excepto si es el mismo operador)
+            if (request.Username != operatorEntity.Username && 
+                await _operatorRepository.UsernameExistsAsync(request.Username))
+                throw new InvalidOperationException("El nombre de usuario ya existe");
+            
+            operatorEntity.Username = request.Username;
+        }
+        // ← FIN DE LAS LÍNEAS A AGREGAR
         
         if (!string.IsNullOrEmpty(request.Password))
             operatorEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
