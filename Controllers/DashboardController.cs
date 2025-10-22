@@ -28,7 +28,7 @@ public class DashboardController : ControllerBase
 
             // Vehículos actualmente dentro (tickets abiertos)
             var vehiclesInside = await _context.Tickets
-                .CountAsync(t => t.Status == TicketStatus.Open);
+                .CountAsync(t => t.ExitDatetime == null);
 
             // Ingresos del día
             var todayIncome = await _context.Payments
